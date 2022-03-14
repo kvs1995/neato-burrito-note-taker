@@ -4,7 +4,6 @@ const express = require('express');
 const path = require('path');
 //import from routes
 const routes = require('./routes')
-const fs = require('fs');
 //set PORT 
 const PORT = process.env.PORT || 3001;
 

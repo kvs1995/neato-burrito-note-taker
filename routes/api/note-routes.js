@@ -6,9 +6,9 @@ const fs = require('fs');
 
 //require the helper utilities to write to the json file
 const uuid = require('../../helpers/uuid');
-
 //require the notesData json file
 const noteData = require('../../db/db.json');
+// const getAndRenderNotes = require('../../public/assets/js');
 
 // const { getNotes } = require('../../public/assets/js/index')
 // const noteList = document.querySelector('.)
@@ -17,15 +17,15 @@ app.get('/', (req, res) => res.json(noteData));
 
 //DELETE route for a specific note
 //path set to '/:id
+app.delete('/:id', (req, res) => {
   //set noteID = the target parameters id
+  const noteId = req.params.id;
   //fs.readFile(notesData)
-    //then take data and parse
-    //THEN with the parsed json data
-      //make a new array of all notes except the one with ID provided in the URL
+  const filtered = noteData.filter(note => note.id !== noteId)
 
-      //save that array to the filesystem (fs.writeToFile(notesData), the new array)
-
-      //add in a response to let the user know that the data attached to the id has been deleted
+  fs.writeFile('./db/db.json', JSON.stringify(filtered, null, 4), (err) => err ? console.log(err) : console.info(`The specified note has been deleted.`))
+  res.json(filtered);
+})
 
 //POST  route for a new note
 //path set to '/'
@@ -41,10 +41,6 @@ app.post('/', (req, res) => {
       text,
       id: uuid(),
     };
-    console.log('New Note: ', newNote)
-    //read and append the newNote to the notesData
-    // readFile(notesData)
-    // noteData.push(newNote)
     
     fs.readFile('./db/db.json', (err,data) => {
       if(err) {
@@ -52,25 +48,10 @@ app.post('/', (req, res) => {
       } else {
         const parsedData = JSON.parse(data);
         parsedData.push(newNote);
-        // fs.writeFile('../..//db/db.json', parsedData)}
-        console.log(parsedData);
         fs.writeFile('./db/db.json', JSON.stringify(parsedData, null, 4), (err) => 
           err ? console.error(err) : console.info(`A new note has been added to db.json.`))
     }})
     res.json(`Note added successffully`)
-    // window.location.reload
-    // getNotes
-      //then parse Data
-      // .then((data) => {
-      //   const parsedData = JSON.parse(data)
-      //   //push the new Note to the result
-      //   parsedData.push(newNote)
-      //   //write the new array with the new note to the json data file. 
-      //   fs.writeFile(noteData, JSON.stringify(newNote, null, 4), (err) => 
-      //     err ? console.error(err) : console.info(`\nData written to ${noteData}`))
-      //   //add in a response to let the user know that the note has been appended
-      //   res.json(`Note added successfully.`)
-      // })
   } else {
   //else return error message that an issue occrred with adding the note.
     res.error('There was an error in adding note.');
