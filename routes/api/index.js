@@ -1,14 +1,8 @@
-//import libraries: express. 
-const express = require('express');
+const router = require('express').Router();
+const noteRoutes = require('./note-routes');
 
-//require the notes route file
-const notesRouter = require('./notes');
 
-//set app variable to express ()
-const app = express();
+router.use('/notes', noteRoutes);
 
-//middleware to use '/notes' path as the url address set to the notes variables
-app.use('/api', notesRouter);
 
-//export the module app
-module.exports = app;
+module.exports = router;

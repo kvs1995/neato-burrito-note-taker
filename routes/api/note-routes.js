@@ -1,20 +1,18 @@
 //set notes variable to require express as Router
-const notes = require('express').Router();
+const app = require('express').Router();
 
 //require fs 
 const fs = require('fs');
 
 //require the helper utilities to write to the json file
-const uuid = require('../helpers/uuid');
+const uuid = require('../../helpers/uuid');
 
 //require the notesData json file
-// const notesData = '../db/db.json'
+const noteData = require('../../db/db.json')
 
 //GET route for retreiving all the notes
-notes.get('/notes', (req, res) => {
-  console.info(`${req.method} requet received for note.`)
-  fs.readFile('db/db.json').then((data) => res.json(JSON.parse(data)));
-});
+app.get('/', (req, res) => res.json(noteData));
+
 
 // //GET route for a specific note
 // //path set to '/:id'
@@ -47,39 +45,39 @@ notes.get('/notes', (req, res) => {
 
 //POST  route for a new note
 //path set to '/'
-notes.post('/', (req, res) => {
-  console.log(req.body)
-  //set the {title, text} equal to the req.body
-  const { title, text } = req.body;
+// notes.post('/', (req, res) => {
+//   console.log(req.body)
+//   //set the {title, text} equal to the req.body
+//   const { title, text } = req.body;
 
-  //if the req body is true (has data in it) 
-  if (req.body) {
-  //set newNote = title, text and id: uuid()
-    const newNote = {
-      title,
-      text,
-      id: uuid(),
-    };
-    console.log(newNote)
-    //read and append the newNote to the notesData
-    //readFile(notesData)
-  //   fs.readFile(notesData)
-  //   //then parse Data
-  //     .then((data) => {
-  //       const parsedData = JSON.parse(data)
-  //       //push the new Note to the result
-  //       parsedData.push(newNote)
-  //       //write the new array with the new note to the json data file. 
-  //       fs.writeFile(notesData, JSON.stringify(newNote, null, 4), (err) => 
-  //         err ? console.error(err) : console.info(`\nData written to ${notesData}`))
-  //       //add in a response to let the user know that the note has been appended
-  //       res.json(`Note added successfully.`)
-  //     })
-  } else {
-  //else return error message that an issue occrred with adding the note.
-    res.error('There was an error in adding tip.');
-  }
-});
+//   //if the req body is true (has data in it) 
+//   if (req.body) {
+//   //set newNote = title, text and id: uuid()
+//     const newNote = {
+//       title,
+//       text,
+//       id: uuid(),
+//     };
+//     console.log(newNote)
+//     //read and append the newNote to the notesData
+//     //readFile(notesData)
+//   //   fs.readFile(notesData)
+//   //   //then parse Data
+//   //     .then((data) => {
+//   //       const parsedData = JSON.parse(data)
+//   //       //push the new Note to the result
+//   //       parsedData.push(newNote)
+//   //       //write the new array with the new note to the json data file. 
+//   //       fs.writeFile(notesData, JSON.stringify(newNote, null, 4), (err) => 
+//   //         err ? console.error(err) : console.info(`\nData written to ${notesData}`))
+//   //       //add in a response to let the user know that the note has been appended
+//   //       res.json(`Note added successfully.`)
+//   //     })
+//   } else {
+//   //else return error message that an issue occrred with adding the note.
+//     res.error('There was an error in adding tip.');
+//   }
+// });
 
 //export the module notes
-module.exports = notes;
+module.exports = app;

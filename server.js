@@ -2,8 +2,8 @@
 const express = require('express');
 //need to import path so the new notes can be written to the json file
 const path = require('path');
-//import the index.js from routes
-const api = require('./routes/index.js')
+//import from routes
+const routes = require('./routes')
 const fs = require('fs');
 //set PORT 
 const PORT = process.env.PORT || 3001;
@@ -14,11 +14,10 @@ const app = express();
 app.use(express.json());
 //use express.urlencoded({ extended: true })
 app.use(express.urlencoded({ extended: true }));
-//set initial url to '/api'
-app.use('/api', api)
+// //set initial url to '/api'
+app.use(routes);
 //middleware to make public folder static
-//express.static('public')
-app.use(express.static(__dirname + '/public'));
+app.use(express.static('public'));
 
 //GET route for homepage 
 app.get('/', (req, res) => 
@@ -28,6 +27,7 @@ app.get('/', (req, res) =>
 //GET route for notes page
 app.get('/notes', (req, res) => 
   res.sendFile(path.join(__dirname, '/public/notes.html')))
+
 
 //app to listen to the port
 app.listen(PORT, () => 
