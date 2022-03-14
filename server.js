@@ -6,7 +6,7 @@ const path = require('path');
 const api = require('./routes/index.js')
 //import helper methods
 const uuid = require('./helpers/uuid.js');
-
+const fs = require('fs');
 //set PORT 
 const PORT = process.env.PORT || 3001;
 
@@ -24,11 +24,12 @@ app.use(express.static('public'));
 
 //GET route for homepage 
 app.get('/', (req, res) => 
-  res.sendFile(path.join(__dirname, 'public/index.html'))
+  res.sendFile(path.join(__dirname, '/public/index.html'))
 );
 
 //GET route for notes page
-
+app.get('/notes', (req, res) => 
+  res.sendFile(path.join(__dirname, '/public/notes.html')))
 
 //app to listen to the port
 app.listen(PORT, () => 

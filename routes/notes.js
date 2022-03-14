@@ -22,3 +22,5 @@ notes.get('/', (req, res) => {
 //POST  route for a new note
 
 //export the module notes
+
+module.exports = notes;
