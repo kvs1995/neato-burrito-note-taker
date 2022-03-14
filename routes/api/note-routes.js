@@ -7,11 +7,8 @@ const fs = require('fs');
 //require the helper utilities to write to the json file
 const uuid = require('../../helpers/uuid');
 //require the notesData json file
-const noteData = require('../../db/db.json');
-// const getAndRenderNotes = require('../../public/assets/js');
+let noteData = require('../../db/db.json');
 
-// const { getNotes } = require('../../public/assets/js/index')
-// const noteList = document.querySelector('.)
 //GET route for retreiving all the notes
 app.get('/', (req, res) => res.json(noteData));
 
@@ -21,10 +18,10 @@ app.delete('/:id', (req, res) => {
   //set noteID = the target parameters id
   const noteId = req.params.id;
   //fs.readFile(notesData)
-  const filtered = noteData.filter(note => note.id !== noteId)
+  noteData = noteData.filter(note => note.id !== noteId)
 
-  fs.writeFile('./db/db.json', JSON.stringify(filtered, null, 4), (err) => err ? console.log(err) : console.info(`The specified note has been deleted.`))
-  res.json(filtered);
+  fs.writeFile('./db/db.json', JSON.stringify(noteData, null, 4), (err) => err ? console.log(err) : console.info(`The specified note has been deleted.`))
+  res.json(noteData);
 })
 
 //POST  route for a new note
@@ -41,17 +38,15 @@ app.post('/', (req, res) => {
       text,
       id: uuid(),
     };
-    
-    fs.readFile('./db/db.json', (err,data) => {
-      if(err) {
-        console.error(err);
-      } else {
-        const parsedData = JSON.parse(data);
-        parsedData.push(newNote);
-        fs.writeFile('./db/db.json', JSON.stringify(parsedData, null, 4), (err) => 
-          err ? console.error(err) : console.info(`A new note has been added to db.json.`))
-    }})
-    res.json(`Note added successffully`)
+
+    noteData.push(newNote);
+    fs.writeFile('./db/db.json', JSON.stringify(noteData, null, 4), (err) => 
+      err ? console.error(err) : console.info(`A new note has been added to db.json.`))
+    const response = {
+      body: newNote
+    }
+    console.log('Response: ', response)
+    res.json(response)
   } else {
   //else return error message that an issue occrred with adding the note.
     res.error('There was an error in adding note.');
