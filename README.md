@@ -19,7 +19,7 @@
   
   Take a look at this short video for a walkthrough on how to use the application:
 
-  ![video](./assets/walkthrough.gif)
+  ![video](./Assets/neato-burrito-note-taker.gif)
 
   ## Contribution Guidelines
   No
@@ -36,3 +36,8 @@
 
   ## License: MIT
       This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
+## GitHub and Heroku Information
+Heroku Deployment: https://neato-burrito-note-taker.herokuapp.com/notes
+
+GitHub Repository: https://github.com/kvs1995/neato-burrito-note-taker
