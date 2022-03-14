@@ -1,4 +1,5 @@
 // import libraries, express
+//require fs and util and uuid
 //need to import path so the new notes can be written to the json file
 
 //import the index.js from routes
@@ -20,3 +21,5 @@
 //GET route for homepage 
 
 //app to listen to the port
+
+
