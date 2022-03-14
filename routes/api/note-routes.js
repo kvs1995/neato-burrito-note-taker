@@ -45,7 +45,6 @@ app.post('/', (req, res) => {
     const response = {
       body: newNote
     }
-    console.log('Response: ', response)
     res.json(response)
   } else {
   //else return error message that an issue occrred with adding the note.
