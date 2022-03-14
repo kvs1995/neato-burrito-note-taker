@@ -5,10 +5,10 @@ const notes = require('express').Router();
 const fs = require('fs');
 
 //require the helper utilities to write to the json file
-const { uuid } = require('../helpers/uuid');
+const uuid = require('../helpers/uuid');
 
 //require the notesData json file
-const notesData = require('../db/db.json')
+// const notesData = '../db/db.json'
 
 //GET route for retreiving all the notes
 notes.get('/', (req, res) => {
@@ -46,22 +46,39 @@ notes.get('/:id', (req, res) => {
 
 //POST  route for a new note
 //path set to '/'
+notes.post('/', (req, res) => {
+  console.log(req.body)
   //set the {title, text} equal to the req.body
-  //if the req body is true (has data in it) 
-    //set newNote = title, text and id: uuid()
+  const { title, text } = req.body;
 
+  //if the req body is true (has data in it) 
+  if (req.body) {
+  //set newNote = title, text and id: uuid()
+    const newNote = {
+      title,
+      text,
+      id: uuid(),
+    };
+    console.log(newNote)
     //read and append the newNote to the notesData
     //readFile(notesData)
-      //then parse Data
-      //then take the json data 
-        //set the set result equal to an array (json.map(note => note)
-
-        //push the new Note to the result
-
-        //write the new array with the new note to the json data file. 
-
-        //add in a response to let the user know that the note has been appended
-    //else return error message that an issue occrred with adding the note.
+  //   fs.readFile(notesData)
+  //   //then parse Data
+  //     .then((data) => {
+  //       const parsedData = JSON.parse(data)
+  //       //push the new Note to the result
+  //       parsedData.push(newNote)
+  //       //write the new array with the new note to the json data file. 
+  //       fs.writeFile(notesData, JSON.stringify(newNote, null, 4), (err) => 
+  //         err ? console.error(err) : console.info(`\nData written to ${notesData}`))
+  //       //add in a response to let the user know that the note has been appended
+  //       res.json(`Note added successfully.`)
+  //     })
+  } else {
+  //else return error message that an issue occrred with adding the note.
+    res.error('There was an error in adding tip.');
+  }
+});
 
 //export the module notes
 module.exports = notes;

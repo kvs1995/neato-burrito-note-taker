@@ -4,8 +4,6 @@ const express = require('express');
 const path = require('path');
 //import the index.js from routes
 const api = require('./routes/index.js')
-//import helper methods
-const uuid = require('./helpers/uuid.js');
 const fs = require('fs');
 //set PORT 
 const PORT = process.env.PORT || 3001;
@@ -20,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api', api)
 //middleware to make public folder static
 //express.static('public')
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
 //GET route for homepage 
 app.get('/', (req, res) => 
