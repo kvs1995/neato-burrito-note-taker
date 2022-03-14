@@ -27,7 +27,10 @@ app.get('/', (req, res) =>
 app.get('/notes', (req, res) => 
   res.sendFile(path.join(__dirname, '/public/notes.html')))
 
-
+//wildcard route to direct users to a 404 page
+app.get('*', (req,res) => 
+  res.sendFile(path.join(__dirname, 'public/index.html'))
+);
 //app to listen to the port
 app.listen(PORT, () => 
   console.log(`App listening at http://localhost:${PORT}`)
