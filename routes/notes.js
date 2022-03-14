@@ -17,11 +17,20 @@ notes.get('/', (req, res) => {
 
 //GET route for a specific note
 //path set to '/:id'
+notes.get('/:id', (req, res) => {
   //set notesID = what is passed in to the request id parameters
+  const noteId = req.params.id;
   //fs.readFile(notesData) and parse
+  fs.readFile(notesData)
+  .then((data) => JSON.parse(data))
   //then take the json parsed data
+  .then((json) => {
     //set the result equal to the json data filtered to the id 
+    const result = json.filter((note) => note.id === noteId);
     //return if the result.length is greater than 0, the res result, else return a statment saying there are no notes yet. 
+    return result.length > 0 ? res.json(result) : res.json('There is no note with that Id. Try searching for a new one!')
+  })
+})
 
 //DELETE route for a specific note
 //path set to '/:id
@@ -55,5 +64,4 @@ notes.get('/', (req, res) => {
     //else return error message that an issue occrred with adding the note.
 
 //export the module notes
-
 module.exports = notes;
