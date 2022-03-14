@@ -8,8 +8,10 @@ const fs = require('fs');
 const uuid = require('../../helpers/uuid');
 
 //require the notesData json file
-const noteData = require('../../db/db.json')
+const noteData = require('../../db/db.json');
 
+// const { getNotes } = require('../../public/assets/js/index')
+// const noteList = document.querySelector('.)
 //GET route for retreiving all the notes
 app.get('/', (req, res) => res.json(noteData));
 
@@ -28,7 +30,6 @@ app.get('/', (req, res) => res.json(noteData));
 //POST  route for a new note
 //path set to '/'
 app.post('/', (req, res) => {
-  console.log(req.body)
   //set the {title, text} equal to the req.body
   const { title, text } = req.body;
 
@@ -43,21 +44,36 @@ app.post('/', (req, res) => {
     console.log('New Note: ', newNote)
     //read and append the newNote to the notesData
     // readFile(notesData)
-    fs.readFile(noteData)
-    //then parse Data
-      .then((data) => {
-        const parsedData = JSON.parse(data)
-        //push the new Note to the result
-        parsedData.push(newNote)
-        //write the new array with the new note to the json data file. 
-        fs.writeFile(noteData, JSON.stringify(newNote, null, 4), (err) => 
-          err ? console.error(err) : console.info(`\nData written to ${noteData}`))
-        //add in a response to let the user know that the note has been appended
-        res.json(`Note added successfully.`)
-      })
+    // noteData.push(newNote)
+    
+    fs.readFile('./db/db.json', (err,data) => {
+      if(err) {
+        console.error(err);
+      } else {
+        const parsedData = JSON.parse(data);
+        parsedData.push(newNote);
+        // fs.writeFile('../..//db/db.json', parsedData)}
+        console.log(parsedData);
+        fs.writeFile('./db/db.json', JSON.stringify(parsedData, null, 4), (err) => 
+          err ? console.error(err) : console.info(`A new note has been added to db.json.`))
+    }})
+    res.json(`Note added successffully`)
+    // window.location.reload
+    // getNotes
+      //then parse Data
+      // .then((data) => {
+      //   const parsedData = JSON.parse(data)
+      //   //push the new Note to the result
+      //   parsedData.push(newNote)
+      //   //write the new array with the new note to the json data file. 
+      //   fs.writeFile(noteData, JSON.stringify(newNote, null, 4), (err) => 
+      //     err ? console.error(err) : console.info(`\nData written to ${noteData}`))
+      //   //add in a response to let the user know that the note has been appended
+      //   res.json(`Note added successfully.`)
+      // })
   } else {
   //else return error message that an issue occrred with adding the note.
-    res.error('There was an error in adding tip.');
+    res.error('There was an error in adding note.');
   }
 });
 
